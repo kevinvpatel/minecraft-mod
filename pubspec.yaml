@@ -1,0 +1,90 @@
+name: minecraft_mod_flutter
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  get: 4.6.5
+
+#  firebase
+  firebase_core: ^2.4.1
+  firebase_remote_config: ^3.0.9
+
+#  Advertise
+  google_mobile_ads: ^2.3.0
+  facebook_audience_network: ^1.0.1
+
+#  carouse slider
+  carousel_slider: ^4.2.1
+
+#  api call
+  http: ^0.13.5
+
+#  download file
+  dio: ^5.0.1
+
+#  save file
+  path_provider: ^2.0.13
+  open_file: ^3.2.1
+
+#  load online image
+  cached_network_image: ^3.2.3
+
+#  internet check
+  internet_connection_checker: ^1.0.0+1
+
+#  dropdown
+  dropdown_button2: ^1.9.2
+
+#  Staggered Grid
+  responsive_grid: ^2.1.0
+
+#  url open
+  url_launcher: ^6.1.10
+
+#  toast message
+  fluttertoast: ^8.1.2
+
+#  fonts
+  google_fonts: ^4.0.3
+
+#  Create zip file
+  archive: ^3.3.6
+
+#  generate random uuid
+  uuid: ^3.0.7
+
+#  generate random uuid
+  share_plus:
+
+#  open playstore
+  launch_review: ^3.0.1
+
+#  create responsive
+  sizer: ^2.0.15
+
+  flutter: 
+    sdk: flutter
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  flutter_test: 
+    sdk: flutter
+
+flutter:
+  assets:
+    - assets/Icons/
+    - assets/Logo/
+    - assets/Info_Screen/
+    - assets/All_Category_Imges/
+
+  fonts:
+    - family: Cambria
+      fonts:
+        - asset: fonts/Cambo-Regular.ttf
+
+  uses-material-design: true
+

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "447352779463",
+    "project_id": "minecraft-mod-flutter",
+    "storage_bucket": "minecraft-mod-flutter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447352779463:android:862f9bde850e1c5cf904e2",
+        "android_client_info": {
+          "package_name": "com.minecraft.mod.minecraft_mod_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "447352779463-86equbq17ffe4ch58vc3og8kfo13lf3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVGrM0euKNK4nYk8Tbm6v9HMUf0ZfsO2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447352779463-86equbq17ffe4ch58vc3og8kfo13lf3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
