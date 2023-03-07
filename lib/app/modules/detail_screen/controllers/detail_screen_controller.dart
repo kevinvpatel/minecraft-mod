@@ -12,6 +12,7 @@ import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/data_model.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:uuid/uuid.dart';
 
 class DetailScreenController extends GetxController {
@@ -56,11 +57,15 @@ class DetailScreenController extends GetxController {
 
   Widget imageList({required double width, required Category data}) {
     return data.screens != null ? Container(
-      height: 130,
+      height: 46.sp,
       width: width,
       child: Column(
         children: [
-          Container(child: Text('IMAGES', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600), textAlign: TextAlign.start), width: width, margin: EdgeInsets.symmetric(horizontal: 10),),
+          Container(
+            width: width,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: Text('IMAGES', style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600), textAlign: TextAlign.start),
+          ),
           Expanded(
               child: ListView.builder(
                   physics: BouncingScrollPhysics(),
@@ -73,11 +78,11 @@ class DetailScreenController extends GetxController {
                       margin: const EdgeInsets.symmetric(horizontal: 7, vertical: 12),
                       decoration: BoxDecoration(
                         color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(8)
+                        borderRadius: BorderRadius.circular(7)
                       ),
                       width: width * 0.3,
                       child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(7),
                         child: CachedNetworkImage(
                           imageUrl: url,
                           width: width,
@@ -101,16 +106,17 @@ class DetailScreenController extends GetxController {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Description :', style: TextStyle(fontSize: 18)),
+          Text('Description :', style: TextStyle(fontSize: 17.5.sp, fontWeight: FontWeight.w600)),
           const SizedBox(height: 25),
-          Text(text, style: const TextStyle(fontSize: 16.5)),
+          Text(text, style: TextStyle(fontSize: 16.2.sp)),
         ],
       ),
     );
   }
 
   Widget suggetionList({required double width}) {
-    double boxHeight = 280;
+    // double boxHeight = 280;
+    double boxHeight = 70.sp;
     final suggetionUrl = Get.arguments['dataList'][Get.arguments['dataList'].length - 1]['url'];
     return Container(
       margin: EdgeInsets.symmetric(vertical: 15),
@@ -124,7 +130,7 @@ class DetailScreenController extends GetxController {
               alignment: Alignment.centerLeft,
               width: width,
               margin: const EdgeInsets.symmetric(horizontal: 10),
-              child: const Text('Try Our Others', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+              child: Text('Try Our Others', style: TextStyle(fontSize: 17.5.sp, fontWeight: FontWeight.w600),),
             )
           ),
           Expanded(
@@ -178,7 +184,7 @@ class DetailScreenController extends GetxController {
 
                                 },
                                 child: Container(
-                                  margin: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 10),
+                                  margin: EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 13.5.sp),
                                   width: width * 0.43,
                                   decoration: const BoxDecoration(
                                       borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
@@ -199,7 +205,8 @@ class DetailScreenController extends GetxController {
                                             tag: fetchedData[index].id!,
                                             child: CachedNetworkImage(
                                               imageUrl: image_url,
-                                              height: boxHeight * 0.55,
+                                              height: boxHeight * 0.58,
+                                              // height: 52.5.sp,
                                               fit: BoxFit.fill,
                                               errorWidget: (ctx, url, err) => Icon(Icons.error, color: Colors.red),
                                               progressIndicatorBuilder: (ctx, url, progress) => ConstantsWidgets.progressBariOS(),
@@ -208,37 +215,38 @@ class DetailScreenController extends GetxController {
                                         ),
                                       ),
                                       Container(
-                                        margin: EdgeInsets.only(left: 8, right: 8, bottom: 7),
+                                        // color: Colors.red,
+                                        margin: EdgeInsets.only(left: 8, right: 8),
                                         child: Column(
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
-                                            Divider(thickness: 1, color: Colors.grey.shade500,),
-                                            Text(fetchedData[index].title!, style: TextStyle(fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis),
-                                            SizedBox(height: 8),
+                                            Divider(thickness: 1, color: Colors.grey.shade500, height: 15.sp),
+                                            Text(fetchedData[index].title!, style: TextStyle(fontSize: 16.sp), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                            SizedBox(height: 8.sp),
                                             Row(
                                               mainAxisAlignment: MainAxisAlignment.center,
                                               children: [
                                                 Column(
                                                   children: [
-                                                    Image.asset(ConstantsImage.heart, height: 16),
+                                                    Image.asset(ConstantsImage.heart, height: 16.sp),
                                                     SizedBox(height: 3),
-                                                    Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].likes!)), style: TextStyle(fontSize: 10.5, color: Colors.grey.shade700))
+                                                    Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].likes!)), style: TextStyle(fontSize: 13.sp, color: Colors.grey.shade700))
                                                   ],
                                                 ),
                                                 Spacer(),
                                                 Column(
                                                   children: [
-                                                    Image.asset(ConstantsImage.eye, height: 18),
+                                                    Image.asset(ConstantsImage.eye, height: 18.sp),
                                                     SizedBox(height: 3),
-                                                    Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: TextStyle(fontSize: 10.5))
+                                                    Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: TextStyle(fontSize: 13.sp))
                                                   ],
                                                 ),
                                                 Spacer(),
                                                 Column(
                                                   children: [
-                                                    Image.asset(ConstantsImage.download, height: 17),
+                                                    Image.asset(ConstantsImage.download, height: 17.sp),
                                                     SizedBox(height: 3),
-                                                    Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].downloads!)), style: TextStyle(fontSize: 10.5))
+                                                    Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].downloads!)), style: TextStyle(fontSize: 13.sp))
                                                   ],
                                                 ),
                                               ],

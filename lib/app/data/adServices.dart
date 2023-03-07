@@ -134,4 +134,54 @@ class AdService {
     );
   }
 
+
+  ///INTERSTITIAL AD
+  InterstitialAd? interstitialAdMob;
+  Future interstitialAd({String? adId, required Function(LoadAdError) onAdFailedToLoad, bool isBack = false}) async {
+    print('interstitialAd LOAD -> ${adId}');
+    print('interstitialAd Get.currentRoute -> ${Get.currentRoute}');
+    print('interstitialAd Get.previousRoute -> ${Get.previousRoute}');
+
+    if(configData.value[isBack ? Get.previousRoute : Get.currentRoute]['interstitial-type'] == 'admob') {
+      print('interstitialAd LOAD 22 -> ${adId}');
+      await InterstitialAd.load(
+          adUnitId: adId ?? configData.value[isBack ? Get.previousRoute : Get.currentRoute]['interstitial-admob'],
+          request: const AdRequest(),
+          adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
+            interstitialAdMob = ad;
+            print('interstitialAd LOAD 33 -> ${adId}');
+            ad.show();
+            if (interstitialAdMob == null) {
+              print('attempt to show InterstitialAd before loaded');
+            }
+            Future.delayed(const Duration(milliseconds: 1000), () {
+              print('ad popup close');
+              Get.back();
+            });
+          }, onAdFailedToLoad: onAdFailedToLoad
+          )
+      ).catchError((err) => print('InterstitialAd err -> $err'));
+    } else if(configData.value[isBack ? Get.previousRoute : Get.currentRoute]['interstitial-type'] == 'url') {
+
+      if(await canLaunchUrl(Uri.parse(configData.value[isBack ? Get.previousRoute : Get.currentRoute]['link']))) {
+        await launchUrl(Uri.parse(configData.value[isBack ? Get.previousRoute : Get.currentRoute]['link']));
+      } else {
+        Fluttertoast.showToast(msg: 'Could not launch url: ${configData.value[isBack ? Get.previousRoute : Get.currentRoute]['link']}');
+      }
+      Future.delayed(const Duration(milliseconds: 1000), () => Get.back());
+
+    } else {
+      print('interstitialAd facebook -> ${configData.value['interstitial-facebook']}');
+      FacebookInterstitialAd.loadInterstitialAd(
+          placementId: configData.value['interstitial-facebook'],
+          listener: (result, value) {
+            if(result == InterstitialAdResult.LOADED) {
+              FacebookInterstitialAd.showInterstitialAd(delay: 2000).then((value) =>
+                  Future.delayed(const Duration(milliseconds: 1000), () => Get.back()));
+            }
+          }
+      );
+    }
+  }
+
 }

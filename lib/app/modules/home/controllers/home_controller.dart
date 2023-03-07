@@ -9,14 +9,20 @@ import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/data_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:minecraft_mod_flutter/app/data/internet_check_service.dart';
+import 'package:minecraft_mod_flutter/app/modules/category_screen/controllers/category_screen_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/detail_screen/views/detail_screen_view.dart';
+import 'package:minecraft_mod_flutter/app/modules/list_screen/controllers/list_screen_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/list_screen/views/list_screen_view.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
 
   final count = 0.obs;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  CategoryScreenController categoryScreenController = CategoryScreenController();
+  ListScreenController listScreenController = ListScreenController();
 
 
   List<String> categoryChips = ['Mods', 'Textures', 'Skins', 'Maps', 'Seeds', 'Shaders'];
@@ -77,10 +83,13 @@ class HomeController extends GetxController {
     required List<Map<String, String>> dataList,
   }) {
     print('get.route -> ${Get.currentRoute}');
-    double boxHeight = 280;
+    // double boxHeight = width * 0.7;
+    // double boxHeight = width * 0.62;
+    double boxHeight = 65.sp;
+    double boxWidth = 68.sp;
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 15),
-      height: boxHeight,
+      margin: EdgeInsets.symmetric(vertical: 15.sp),
+      // height: boxHeight,
       width: width,
       child: Column(
         children: [
@@ -89,17 +98,24 @@ class HomeController extends GetxController {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),),
+                Text(title, style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),),
                 GestureDetector(
                   onTap: () {
+                    print('dataList@@ -> ${dataList}');
+                    ///Arguments pass nthi thati dialogbox open thya pchi
+                    listScreenController.dataList.value.addAll(dataList);
+                    print('listScreenController.dataList@@ -> ${listScreenController.dataList.value}');
+                    listScreenController.ctgName = tag;
                     Get.to(const ListScreenView(), arguments: {'dataList' : dataList, 'ctgName' : tag});
+                    categoryScreenController.checkCounterAd(context: Get.overlayContext!);
                   },
-                  child: const Text('View All', style: TextStyle(fontSize: 16, color: Colors.brown),)
+                  child: Text('View All', style: TextStyle(fontSize: 17.sp, color: Colors.brown),)
                 ),
               ],
             ),
           ),
-          Expanded(
+          Container(
+            height: boxHeight,
             child: FutureBuilder<List<Category>>(
               // future: isSearchOn.value == true ? searchData(url: dataUrlList[0], tag: tag) : getData(url: dataUrlList[0], tag: tag),
               future: getData(url: dataList[0]['url']!, tag: tag),
@@ -131,7 +147,8 @@ class HomeController extends GetxController {
                           if(tag == 'texture-packs' && index == 1) {
                             return Container(
                               margin: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 10),
-                              width: width * 0.43,
+                              // width: boxHeight * 0.55,
+                              width: boxWidth * 0.6,
                               decoration: const BoxDecoration(
                                   borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
                                   color: Colors.white,
@@ -147,10 +164,11 @@ class HomeController extends GetxController {
                               onTap: () {
                                 final data1 = json.encode(fetchedData[index]);
                                 Get.to(const DetailScreenView(), arguments: {'dataList' : dataList, 'singleCategory': data1, 'ctgName' : ctgName});
+                                categoryScreenController.checkCounterAd(context: Get.context!);
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 10),
-                                width: width * 0.43,
+                                width: boxWidth * 0.6,
                                 decoration: const BoxDecoration(
                                     borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
                                     color: Colors.white,
@@ -158,58 +176,65 @@ class HomeController extends GetxController {
                                 ),
                                 child: Column(
                                   children: [
-                                    Container(
-                                      width: width * 0.43,
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
-                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
-                                      ),
-                                      child: ClipRRect(
-                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
-                                        child: Hero(
-                                          tag: fetchedData[index].id!,
-                                          child: CachedNetworkImage(
-                                            imageUrl: imageUrl,
-                                            height: boxHeight * 0.55,
-                                            fit: BoxFit.fill,
-                                            errorWidget: (ctx, url, err) => const Icon(Icons.error, color: Colors.red),
-                                            progressIndicatorBuilder: (ctx, url, progress) => ConstantsWidgets.progressBariOS(),
+                                    Expanded(
+                                      child: Container(
+                                        width: boxWidth * 0.6,
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade200,
+                                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+                                          child: Hero(
+                                            tag: fetchedData[index].id!,
+                                            child: CachedNetworkImage(
+                                              imageUrl: imageUrl,
+                                              // height: boxHeight * 0.62,
+                                              // height: 52.sp,
+                                              fit: BoxFit.fill,
+                                              errorWidget: (ctx, url, err) => const Icon(Icons.error, color: Colors.red),
+                                              progressIndicatorBuilder: (ctx, url, progress) => ConstantsWidgets.progressBariOS(),
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
+
                                     Container(
-                                      margin: const EdgeInsets.only(left: 8, right: 8, bottom: 7),
+                                      margin: EdgeInsets.only(left: 8, right: 8, bottom: 7),
                                       child: Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Divider(thickness: 1, color: Colors.grey.shade500,),
-                                          Text(fetchedData[index].title!, style: const TextStyle(fontSize: 16), maxLines: 1, overflow: TextOverflow.ellipsis),
-                                          const SizedBox(height: 8),
+                                          Divider(thickness: 1, color: Colors.grey.shade500, height: 16.sp),
+                                          Text(fetchedData[index].title!, style: TextStyle(fontSize: 15.5.sp), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                          SizedBox(height: 8.sp),
                                           Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Column(
                                                 children: [
-                                                  Image.asset(ConstantsImage.heart, height: 16),
-                                                  const SizedBox(height: 3),
-                                                  Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].likes!)), style: TextStyle(fontSize: 10.5, color: Colors.grey.shade700))
+                                                  Image.asset(ConstantsImage.heart, height: 15.5.sp),
+                                                  SizedBox(height: 3),
+                                                  // Text(k_m_b_generator(num: int.parse(fetchedData[index].likes!)), style: TextStyle(fontSize: 10.5, color: Colors.grey.shade700))
+                                                  Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].likes!)),
+                                                      style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade700))
                                                 ],
                                               ),
-                                              const Spacer(),
+                                              Spacer(),
                                               Column(
                                                 children: [
-                                                  Image.asset(ConstantsImage.eye, height: 18),
-                                                  const SizedBox(height: 3),
-                                                  Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: const TextStyle(fontSize: 10.5))
+                                                  Image.asset(ConstantsImage.eye, height: 16.sp),
+                                                  SizedBox(height: 3),
+                                                  // Text(k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: TextStyle(fontSize: 10.5))
+                                                  Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: TextStyle(fontSize: 13.5.sp))
                                                 ],
                                               ),
-                                              const Spacer(),
+                                              Spacer(),
                                               Column(
                                                 children: [
-                                                  Image.asset(ConstantsImage.download, height: 17),
-                                                  const SizedBox(height: 3),
-                                                  Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].downloads!)), style: const TextStyle(fontSize: 10.5))
+                                                  Image.asset(ConstantsImage.download, height: 15.5.sp),
+                                                  SizedBox(height: 3),
+                                                  Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].downloads!)), style: TextStyle(fontSize: 13.5.sp))
                                                 ],
                                               ),
                                             ],
@@ -217,6 +242,46 @@ class HomeController extends GetxController {
                                         ],
                                       ),
                                     )
+                                    // Container(
+                                    //   // color: Colors.red,
+                                    //   margin: EdgeInsets.only(left: 2.w, right: 2.w),
+                                    //   child: Column(
+                                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                                    //     children: [
+                                    //       Divider(thickness: 1, height: 15.sp, color: Colors.grey.shade500,),
+                                    //       Text(fetchedData[index].title!, style: TextStyle(fontSize: 16.sp), maxLines: 1, overflow: TextOverflow.ellipsis),
+                                    //       SizedBox(height: 10.sp),
+                                    //       Row(
+                                    //         mainAxisAlignment: MainAxisAlignment.center,
+                                    //         children: [
+                                    //           Column(
+                                    //             children: [
+                                    //               Image.asset(ConstantsImage.heart, height: 16.sp),
+                                    //               const SizedBox(height: 3),
+                                    //               Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].likes!)), style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade700))
+                                    //             ],
+                                    //           ),
+                                    //           const Spacer(),
+                                    //           Column(
+                                    //             children: [
+                                    //               Image.asset(ConstantsImage.eye, height: 18.sp),
+                                    //               const SizedBox(height: 3),
+                                    //               Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: TextStyle(fontSize: 13.4.sp))
+                                    //             ],
+                                    //           ),
+                                    //           const Spacer(),
+                                    //           Column(
+                                    //             children: [
+                                    //               Image.asset(ConstantsImage.download, height: 17.sp),
+                                    //               const SizedBox(height: 3),
+                                    //               Text(ConstantsWidgets.k_m_b_generator(num: int.parse(fetchedData[index].downloads!)), style: TextStyle(fontSize: 13.4.sp))
+                                    //             ],
+                                    //           ),
+                                    //         ],
+                                    //       )
+                                    //     ],
+                                    //   ),
+                                    // )
                                   ],
                                 ),
                               ),

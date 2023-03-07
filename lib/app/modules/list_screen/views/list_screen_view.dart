@@ -6,6 +6,7 @@ import 'package:minecraft_mod_flutter/app/data/adServices.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/modules/list_screen/views/list_widgets.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../controllers/list_screen_controller.dart';
 
 class ListScreenView extends GetView<ListScreenController> {
@@ -30,7 +31,7 @@ class ListScreenView extends GetView<ListScreenController> {
               padding: EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 children: [
-                  Text(Get.arguments['ctgName'].toString().capitalizeFirst!, style: TextStyle(fontSize: 22, color: Colors.brown, fontWeight: FontWeight.w600),),
+                  Text(Get.arguments['ctgName'].toString().capitalizeFirst!.split('-')[0], style: TextStyle(fontSize: 21.sp, color: Colors.brown, fontWeight: FontWeight.w600),),
                   Spacer(),
                   Obx(() => DropdownButtonHideUnderline(
                     child: DropdownButton2(
@@ -45,11 +46,11 @@ class ListScreenView extends GetView<ListScreenController> {
                               width: width * 0.5,
                               alignment: Alignment.centerRight,
                               child: Text(controller.selectedCategoryValue!.value,
-                                style: TextStyle(fontSize: 20, color: Colors.brown, fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: 19.sp, color: Colors.brown, fontWeight: FontWeight.w500),
                                   overflow: TextOverflow.ellipsis, maxLines: 1),
                             ),
                             SizedBox(width: 15),
-                            Image.asset(ConstantsImage.oneSideMenu, height: 24)
+                            Image.asset(ConstantsImage.oneSideMenu, height: 21.sp)
                           ],
                         ),
                         dropdownDecoration: BoxDecoration(
@@ -97,7 +98,7 @@ class ListScreenView extends GetView<ListScreenController> {
                       width: width * 0.5,
                       alignment: Alignment.center,
                       color: const Color.fromRGBO(255, 235, 180, 1),
-                      child: const Text('All Type', style: TextStyle(color: Colors.brown, fontSize: 15.5),)
+                      child: Text('All Type', style: TextStyle(color: Colors.brown, fontSize: 17.sp),)
                   ),
                   Obx(() =>
                       DropdownButtonHideUnderline(
@@ -116,7 +117,7 @@ class ListScreenView extends GetView<ListScreenController> {
                           items: controller.lstSortDropdown.map((item) =>
                               DropdownMenuItem(
                                   value: item,
-                                  child: Text(item, style: const TextStyle(color: Colors.brown),)
+                                  child: Text(item, style: TextStyle(color: Colors.brown, fontSize: 17.sp),)
                               )
                           ).toList(),
                           value: controller.selectedSortValue?.value,

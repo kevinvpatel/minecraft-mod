@@ -5,8 +5,6 @@ import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 class InfoScreenController extends GetxController {
   //TODO: Implement InfoScreenController
 
-  final count = 0.obs;
-
   List<String> lstTitle = ['1. Download', '2. Open', '3. Choose Minecraft', '4. Allow Minecraft access', '5. Success'];
   List<String> lstImages = [ConstantsImage.download_info, ConstantsImage.open_info, ConstantsImage.choose_info, ConstantsImage.allow_info, ConstantsImage.success_info];
 
@@ -47,5 +45,5 @@ class InfoScreenController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
+
 }

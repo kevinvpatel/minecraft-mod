@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:minecraft_mod_flutter/app/modules/splash_screen/controllers/splash_screen_controller.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:screen_size_test/screen_size_test.dart';
 import 'app/routes/app_pages.dart';
 
 
@@ -51,14 +53,21 @@ Future<void> main() async {
   });
 
   runApp(
-    GetMaterialApp(
-      title: "Application",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Cambria'
-      ),
-      initialRoute: AppPages.INITIAL,
-      getPages: AppPages.routes,
-    ),
+    ResponsiveSizer(
+        builder: (ctx, orientation, screenType) {
+          return GetMaterialApp(
+            title: "Application",
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                fontFamily: 'Cambria'
+            ),
+            // builder: (context, child) => ScreenSizeTest(
+            //   child: child,
+            // ),
+            initialRoute: AppPages.INITIAL,
+            getPages: AppPages.routes,
+          );
+        }
+    )
   );
 }

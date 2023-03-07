@@ -9,6 +9,7 @@ import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/data_model.dart';
 import 'package:http/http.dart' as http;
 import 'package:minecraft_mod_flutter/app/modules/detail_screen/views/detail_screen_view.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 
 class ListScreenController extends GetxController {
@@ -138,6 +139,7 @@ class ListScreenController extends GetxController {
         'http://owlsup.ru/main_catalog/${ctgName}/${category.id}/screens/s0.jpg';
       }
     }
+    print('imageUrl -> $imageUrl  title -> ${category.title}');
 
     return InkWell(
       onTap: () {
@@ -145,7 +147,7 @@ class ListScreenController extends GetxController {
         Get.to(const DetailScreenView(), arguments: {'dataList' : Get.arguments['dataList'], 'singleCategory': data, 'ctgName' : ctgName});
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+        margin: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 12.sp),
         width: width * 0.43,
         decoration: const BoxDecoration(
             color: Colors.white,
@@ -158,18 +160,18 @@ class ListScreenController extends GetxController {
               width: width * 0.43,
               decoration: BoxDecoration(
                 color: Colors.grey.shade200,
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
               ),
               child: ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
+                borderRadius: const BorderRadius.only(topLeft: Radius.circular(18), topRight: Radius.circular(18)),
                 // child: Image.network(imageUrl, height: boxHeight * 0.55, fit: BoxFit.fill),
                 child: Hero(
                   tag: category.id!,
                   child: CachedNetworkImage(
                     imageUrl: imageUrl,
-                    height: 147,
+                    height: 50.sp,
                     fit: BoxFit.fill,
-                    errorWidget: (ctx, url, err) => Icon(Icons.error, color: Colors.red),
+                    errorWidget: (ctx, url, err) => Center(child: Text('image \n not available', style: TextStyle(fontSize: 15.5.sp), textAlign: TextAlign.center,)),
                     progressIndicatorBuilder: (ctx, url, progress) => ConstantsWidgets.progressBariOS(),
                   ),
                 ),
@@ -180,36 +182,36 @@ class ListScreenController extends GetxController {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Divider(thickness: 1, color: Colors.grey.shade500,),
-                  Text(category.title!, style: TextStyle(fontSize: 14), maxLines: 1, overflow: TextOverflow.ellipsis),
-                  SizedBox(height: 8),
+                  Divider(thickness: 1, color: Colors.grey.shade500, height: 16.sp),
+                  Text(category.title!, style: TextStyle(fontSize: 16.5.sp), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  SizedBox(height: 8.sp),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
                         children: [
-                          Image.asset(ConstantsImage.heart, height: 15),
+                          Image.asset(ConstantsImage.heart, height: 15.5.sp),
                           SizedBox(height: 3),
                           // Text(k_m_b_generator(num: int.parse(fetchedData[index].likes!)), style: TextStyle(fontSize: 10.5, color: Colors.grey.shade700))
                           Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.likes!)),
-                              style: TextStyle(fontSize: 10.5, color: Colors.grey.shade700))
+                              style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade700))
                         ],
                       ),
                       Spacer(),
                       Column(
                         children: [
-                          Image.asset(ConstantsImage.eye, height: 17),
+                          Image.asset(ConstantsImage.eye, height: 16.sp),
                           SizedBox(height: 3),
                           // Text(k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: TextStyle(fontSize: 10.5))
-                          Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.views!)), style: TextStyle(fontSize: 10.5))
+                          Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.views!)), style: TextStyle(fontSize: 13.5.sp))
                         ],
                       ),
                       Spacer(),
                       Column(
                         children: [
-                          Image.asset(ConstantsImage.download, height: 16),
+                          Image.asset(ConstantsImage.download, height: 15.5.sp),
                           SizedBox(height: 3),
-                          Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.downloads!)), style: TextStyle(fontSize: 10.5))
+                          Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.downloads!)), style: TextStyle(fontSize: 13.5.sp))
                         ],
                       ),
                     ],
@@ -292,7 +294,8 @@ class ListScreenController extends GetxController {
     );
   }
 
-
+  RxList dataList = [].obs;
+  String ctgName = '';
 
   @override
   void onInit() {
@@ -301,6 +304,9 @@ class ListScreenController extends GetxController {
     lstSearchedCategory = <Category>[].obs;
 
     print('lstSearchedCategory length init -> ${lstSearchedCategory.length}');
+    print('Get.arguments[dataList] 22-> ${Get.arguments}');
+    print('dataList 22-> ${dataList.value}');
+    // getData(url: Get.arguments['dataList'][0]['url'], tag: Get.arguments['ctgName']);
     getData(url: Get.arguments['dataList'][0]['url'], tag: Get.arguments['ctgName']);
 
     searchController.addListener(() {
@@ -338,14 +344,14 @@ class ListScreenController extends GetxController {
   void onReady() {
     super.onReady();
     // lstCategoryDropdown.value.addAll(Get.arguments['dataList']);
+    print('Get.arguments[dataList] -> ${Get.arguments['dataList']}');
+    print('dataList -> ${dataList.value}');
+    print('lstCategoryDropdown -> ${lstCategoryDropdown.value}');
     Get.arguments['dataList'].forEach((element) {
       lstCategoryDropdown.value.add(element['title']);
       lstMapCategoryDropdown.value.add(element);
     });
     selectedCategoryValue?.value = Get.arguments['dataList'][0]['title'];
-    print('Get.arguments[dataList] -> ${Get.arguments['dataList']}');
-    print('lstCategoryDropdown -> ${lstCategoryDropdown.value}');
-
   }
 
   @override

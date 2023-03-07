@@ -3,31 +3,30 @@ import 'package:get/get.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
+import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/modules/category_screen/views/category_screen_view.dart';
 import 'package:minecraft_mod_flutter/app/modules/home/controllers/home_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/info_screen/views/info_screen_view.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
 class HomeWidgets {
 
   static PreferredSizeWidget appBar({required double width, required HomeController controller}) {
-    return AppBar(
-      leadingWidth: 0,
-      title: Row(
+    return ConstantsWidgets.appBarConstant(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: (){
-              print('tap appbar title');
-              controller.scaffoldKey.currentState?.openDrawer();
-            },
-            child: Image.asset(ConstantsImage.fullMenu, height: 26)
+              onTap: (){
+                print('tap appbar title');
+                controller.scaffoldKey.currentState?.openDrawer();
+              },
+              child: Image.asset(ConstantsImage.fullMenu, height: 19.sp)
           ),
-          Icon(Icons.notifications_rounded, color: Colors.brown)
+          Icon(Icons.notifications_rounded, color: Colors.brown, size: 21.sp)
         ],
-      ),
-      backgroundColor: ConstantsColor.orange50,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(18), bottomRight: Radius.circular(18))),
+      )
     );
   }
 
@@ -68,7 +67,7 @@ class HomeWidgets {
           Container(
             alignment: Alignment.centerLeft,
             margin: const EdgeInsets.only(left: 15),
-            child: Text('PRIVACY & INFO', style: TextStyle(color: Colors.grey.shade600, fontSize: 17, fontWeight: FontWeight.w600)),
+            child: Text('PRIVACY & INFO', style: TextStyle(color: Colors.grey.shade600, fontSize: 17.sp, fontWeight: FontWeight.w600)),
           ),
           const SizedBox(height: 10),
           ///Items
@@ -101,7 +100,7 @@ class HomeWidgets {
   static drawerItem({required String image, required String title, required Function() onTap}) {
     return Column(
       children: [
-        const SizedBox(height: 10),
+        SizedBox(height: 11.sp),
         InkWell(
           onTap: onTap,
           child: Container(
@@ -109,9 +108,9 @@ class HomeWidgets {
             height: 60,
             child: Row(
               children: [
-                Image.asset(image, height: 43, width: 43),
-                const VerticalDivider(indent: 12, endIndent: 12, thickness: 1.2, color: Colors.black54, width: 58),
-                Text(title, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w600), maxLines: 1, overflow: TextOverflow.ellipsis,)
+                Image.asset(image, height: 26.5.sp, width: 26.5.sp),
+                VerticalDivider(indent: 15.sp, endIndent: 15.sp, thickness: 1.2, color: Colors.black54, width: 30.sp),
+                Text(title, style: TextStyle(fontSize: 17.5.sp, fontWeight: FontWeight.w600), maxLines: 1, overflow: TextOverflow.ellipsis,)
               ],
             ),
           ),

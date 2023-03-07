@@ -6,29 +6,27 @@ import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/modules/detail_screen/controllers/detail_screen_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/info_screen/views/info_screen_view.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
 class DetailWidgets {
 
   static PreferredSizeWidget appBar({required double width, required DetailScreenController controller}) {
-    return AppBar(
-      leadingWidth: 0,
-      title: Row(
+    return ConstantsWidgets.appBarConstant(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: 20,
+            width: 19.sp,
             child: TextButton(
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
                 onPressed: (){Get.back();},
-                child: Image.asset(ConstantsImage.back, height: 22)
+                child: Image.asset(ConstantsImage.back)
             ),
           ),
           sideMenu(width: width, controller: controller)
         ],
-      ),
-      backgroundColor: ConstantsColor.orange50,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+      )
     );
   }
 
@@ -43,9 +41,9 @@ class DetailWidgets {
           dropdownWidth: width * 0.48,
           dropdownPadding: const EdgeInsets.only(top: 15),
           customButton: Container(
-            height: 45,
-            width: 45,
-            padding: const EdgeInsets.all(11.5),
+            height: 25.sp,
+            width: 25.sp,
+            padding: EdgeInsets.all(11.5.sp),
             child: Image.asset(ConstantsImage.dotMenu)
           ),
           dropdownDecoration: BoxDecoration(
@@ -66,9 +64,9 @@ class DetailWidgets {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Image.asset(controller.lstSideMenuIcon.value[index], height: 20, width: 20),
-                          const SizedBox(width: 20),
-                          Text(controller.lstSideMenuTitle.value[index], style: const TextStyle(color: Colors.brown)),
+                          Image.asset(controller.lstSideMenuIcon.value[index], height: 18.sp, width: 18.sp),
+                          SizedBox(width: 17.sp),
+                          Text(controller.lstSideMenuTitle.value[index], style: TextStyle(color: Colors.brown, fontSize: 16.sp)),
                         ],
                       ),
                     ),
@@ -99,7 +97,7 @@ class DetailWidgets {
     Color? textColor,
     double sidePadding = 16,
     double verticalPadding = 7,
-    double fontSize = 14
+    double fontSize = 15.2
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -108,20 +106,20 @@ class DetailWidgets {
       ),
       padding: EdgeInsets.symmetric(horizontal: sidePadding, vertical: verticalPadding),
       margin: EdgeInsets.only(right: 10),
-      child: Text(title, style: TextStyle(color: textColor, fontSize: fontSize),),
+      child: Text(title, style: TextStyle(color: textColor, fontSize: fontSize.sp),),
     );
   }
 
   static Widget imageIcon({required String data, required double width, required String image, required double imageHeight, bool isVersion = false}) {
     return Container(
-      height: 50,
+      height: 28.sp,
       width: width * 0.215,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Image.asset(image, height: imageHeight),
-          SizedBox(height: 3),
-          Text(isVersion ? data+'+' : ConstantsWidgets.k_m_b_generator(num: int.parse(data)), style: TextStyle(fontSize: 14, color: Colors.grey.shade700))
+          SizedBox(height: 3.sp),
+          Text(isVersion ? data+'+' : ConstantsWidgets.k_m_b_generator(num: int.parse(data)), style: TextStyle(fontSize: 15.sp, color: Colors.grey.shade700))
         ],
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ConstantsWidgets {
 
@@ -20,6 +22,16 @@ class ConstantsWidgets {
     }
   }
 
+
+  static PreferredSizeWidget appBarConstant ({required Widget child}) {
+    return AppBar(
+      toolbarHeight: 32.sp,
+      leadingWidth: 0,
+      title: child,
+      backgroundColor: ConstantsColor.orange50,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.only(bottomLeft: Radius.circular(18), bottomRight: Radius.circular(18))),
+    );
+  }
 
 
 }

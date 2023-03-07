@@ -64,7 +64,8 @@ dependencies:
   launch_review: ^3.0.1
 
 #  create responsive
-  sizer: ^2.0.15
+  responsive_sizer: ^3.1.1
+  screen_size_test: ^1.0.2+3
 
   flutter: 
     sdk: flutter

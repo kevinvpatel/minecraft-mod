@@ -9,6 +9,7 @@ import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/modules/detail_screen/views/detail_widgets.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../controllers/detail_screen_controller.dart';
 
 
@@ -19,7 +20,8 @@ class DetailScreenView extends GetView<DetailScreenController> {
     DetailScreenController controller = Get.put(DetailScreenController());
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    double imageHeight = 300;
+    // double imageHeight = 300;
+    double imageHeight = 69.sp;
 
     Future.delayed(const Duration(milliseconds: 1500), () {
       if(controller.categoryData.value.files?.first.url != null) {
@@ -67,18 +69,18 @@ class DetailScreenView extends GetView<DetailScreenController> {
                     ),),
                     ///Icons
                     Padding(
-                      padding: const EdgeInsets.only(left: 0, right: 0, top: 15),
+                      padding: EdgeInsets.only(left: 0, right: 0, top: 15.sp),
                       child: Obx(() {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            DetailWidgets.imageIcon(data: controller.categoryData.value.likes ?? '0', width: width, image: ConstantsImage.heart, imageHeight: 25),
+                            DetailWidgets.imageIcon(data: controller.categoryData.value.likes ?? '0', width: width, image: ConstantsImage.heart, imageHeight: 19.sp),
                             const Spacer(),
-                            DetailWidgets.imageIcon(data: controller.categoryData.value.views ?? '0', width: width, image: ConstantsImage.eye, imageHeight: 26),
+                            DetailWidgets.imageIcon(data: controller.categoryData.value.views ?? '0', width: width, image: ConstantsImage.eye, imageHeight: 20.sp),
                             const Spacer(),
-                            DetailWidgets.imageIcon(data: controller.categoryData.value.versions?.first.code ?? '0.0', width: width, image: ConstantsImage.version, imageHeight: 27, isVersion: true),
+                            DetailWidgets.imageIcon(data: controller.categoryData.value.versions?.first.code ?? '0.0', width: width, image: ConstantsImage.version, imageHeight: 20.sp, isVersion: true),
                             const Spacer(),
-                            DetailWidgets.imageIcon(data: controller.categoryData.value.downloads ?? '0', width: width, image: ConstantsImage.download, imageHeight: 27),
+                            DetailWidgets.imageIcon(data: controller.categoryData.value.downloads ?? '0', width: width, image: ConstantsImage.download, imageHeight: 20.sp),
                           ],
                         );
                       }),
@@ -94,7 +96,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ///Title
-                    Obx(() => Text(controller.categoryData.value.title ?? '', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),),),
+                    Obx(() => Text(controller.categoryData.value.title ?? '', style: TextStyle(fontSize: 19.sp, fontWeight: FontWeight.w600),),),
                     const SizedBox(height: 12),
 
                     ///Tags
@@ -118,7 +120,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                     const SizedBox(height: 20),
                     /// Download Button
                     SizedBox(
-                      height: 48,
+                      height: 29.sp,
                       width: double.infinity,
                       child: ElevatedButton(
                           onPressed: () async {
@@ -167,7 +169,7 @@ class DetailScreenView extends GetView<DetailScreenController> {
                                   )
                                 ],
                               )
-                              : Text(controller.isFileExist.value ? 'Open' : 'Download', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),)
+                              : Text(controller.isFileExist.value ? 'Open' : 'Download', style: TextStyle(fontSize: 19.5.sp, fontWeight: FontWeight.w500),)
                           )
                       ),
                     ),

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
 import 'package:minecraft_mod_flutter/app/modules/category_screen/views/category_widgets.dart';
 import 'package:minecraft_mod_flutter/app/modules/list_screen/views/list_screen_view.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../controllers/category_screen_controller.dart';
 
@@ -22,7 +23,7 @@ class CategoryScreenView extends GetView<CategoryScreenController> {
       appBar: CategoryWidgets.appBar(width: width),
       body: Center(
         child: ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 40),
+          padding: EdgeInsets.symmetric(vertical: 27.sp),
           scrollDirection: Axis.vertical,
           physics: BouncingScrollPhysics(),
           itemCount: controller.lstCategoryTitle.length,
@@ -32,13 +33,13 @@ class CategoryScreenView extends GetView<CategoryScreenController> {
                 Get.to(const ListScreenView(), arguments: {'dataList' : controller.lstCategoryData[index], 'ctgName' : controller.lstCategoryTagName[index]});
               },
               child: Container(
-                margin: EdgeInsets.only(left: 25, right: 25, bottom: 20),
+                margin: EdgeInsets.only(left: 19.sp, right: 19.sp, bottom: 18.sp),
                 padding: EdgeInsets.only(bottom: 15),
                 width: width * 0.9,
-                height: 120,
+                height: 45.sp,
                 decoration: BoxDecoration(
                   color: Colors.primaries[index],
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(23),
                   image: DecorationImage(image: AssetImage(controller.lstCategoryImages[index]), fit: BoxFit.cover),
                 ),
                 alignment: Alignment.bottomCenter,
@@ -47,7 +48,7 @@ class CategoryScreenView extends GetView<CategoryScreenController> {
                   children: [
                     Text(controller.lstCategoryTitle[index],
                       style: GoogleFonts.pressStart2p(
-                          fontSize: 28.5,
+                          fontSize: 22.sp,
                           foreground: Paint()
                             ..style = PaintingStyle.stroke
                             ..strokeWidth = 3
@@ -56,7 +57,7 @@ class CategoryScreenView extends GetView<CategoryScreenController> {
                     ),
                     Text(controller.lstCategoryTitle[index],
                       style: GoogleFonts.pressStart2p(
-                          fontSize: 28,
+                          fontSize: 22.sp,
                           // color: Color.fromRGBO(254, 254, 125, 1),
                           foreground: Paint()
                             ..shader = LinearGradient(colors: <Color>[Color.fromRGBO(254, 254, 125, 1), Color.fromRGBO(254, 254, 13, 1)]).createShader(Rect.fromLTRB(0.0, 0.0, 200.0, 70.0))
