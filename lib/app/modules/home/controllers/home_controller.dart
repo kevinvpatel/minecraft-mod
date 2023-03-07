@@ -13,15 +13,17 @@ import 'package:minecraft_mod_flutter/app/modules/category_screen/controllers/ca
 import 'package:minecraft_mod_flutter/app/modules/detail_screen/views/detail_screen_view.dart';
 import 'package:minecraft_mod_flutter/app/modules/list_screen/controllers/list_screen_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/list_screen/views/list_screen_view.dart';
+import 'package:minecraft_mod_flutter/app/routes/app_pages.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
+  AdService adService = AdService();
 
   final count = 0.obs;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
-  CategoryScreenController categoryScreenController = CategoryScreenController();
   ListScreenController listScreenController = ListScreenController();
 
 
@@ -103,11 +105,8 @@ class HomeController extends GetxController {
                   onTap: () {
                     print('dataList@@ -> ${dataList}');
                     ///Arguments pass nthi thati dialogbox open thya pchi
-                    listScreenController.dataList.value.addAll(dataList);
-                    print('listScreenController.dataList@@ -> ${listScreenController.dataList.value}');
-                    listScreenController.ctgName = tag;
                     Get.to(const ListScreenView(), arguments: {'dataList' : dataList, 'ctgName' : tag});
-                    categoryScreenController.checkCounterAd(context: Get.overlayContext!);
+                    adService.checkCounterAd();
                   },
                   child: Text('View All', style: TextStyle(fontSize: 17.sp, color: Colors.brown),)
                 ),
@@ -164,7 +163,7 @@ class HomeController extends GetxController {
                               onTap: () {
                                 final data1 = json.encode(fetchedData[index]);
                                 Get.to(const DetailScreenView(), arguments: {'dataList' : dataList, 'singleCategory': data1, 'ctgName' : ctgName});
-                                categoryScreenController.checkCounterAd(context: Get.context!);
+                                adService.checkCounterAd();
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(left: 8, right: 8, top: 12, bottom: 10),

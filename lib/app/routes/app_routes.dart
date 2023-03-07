@@ -9,6 +9,7 @@ abstract class Routes {
   static const DETAIL_SCREEN = _Paths.DETAIL_SCREEN;
   static const INFO_SCREEN = _Paths.INFO_SCREEN;
   static const CATEGORY_SCREEN = _Paths.CATEGORY_SCREEN;
+  static const WEB_SCREEN = _Paths.WEB_SCREEN;
 }
 
 abstract class _Paths {
@@ -19,4 +20,5 @@ abstract class _Paths {
   static const DETAIL_SCREEN = '/detail-screen';
   static const INFO_SCREEN = '/info-screen';
   static const CATEGORY_SCREEN = '/category-screen';
+  static const WEB_SCREEN = '/web-screen';
 }

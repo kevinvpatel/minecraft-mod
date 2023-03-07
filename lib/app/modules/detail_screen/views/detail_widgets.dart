@@ -1,6 +1,7 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:minecraft_mod_flutter/app/data/adServices.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
@@ -11,7 +12,7 @@ import 'package:share_plus/share_plus.dart';
 
 class DetailWidgets {
 
-  static PreferredSizeWidget appBar({required double width, required DetailScreenController controller}) {
+  static PreferredSizeWidget appBar({required double width, required DetailScreenController controller, required AdService adService}) {
     return ConstantsWidgets.appBarConstant(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -20,7 +21,10 @@ class DetailWidgets {
             width: 19.sp,
             child: TextButton(
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                onPressed: (){Get.back();},
+                onPressed: () {
+                  adService.checkBackCounterAd();
+                  Get.back();
+                },
                 child: Image.asset(ConstantsImage.back)
             ),
           ),

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:minecraft_mod_flutter/app/data/adServices.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/data_model.dart';
@@ -17,6 +18,7 @@ import 'package:uuid/uuid.dart';
 
 class DetailScreenController extends GetxController {
   //TODO: Implement DetailScreenController
+  AdService adService = AdService();
 
   final count = 0.obs;
   Rx<Category> categoryData = Category().obs;
@@ -153,12 +155,13 @@ class DetailScreenController extends GetxController {
                             itemCount: fetchedData?.length,
                             itemBuilder: (context, index) {
 
-                              final ctgName = Get.arguments['ctgName'].replaceAll('-', '_');
+                              print('Get.arguments[ctgName] detailScreen-> ${Get.arguments}');
+                              // final ctgName = Get.arguments['ctgName'].replaceAll('-', '_');
                               String image_url;
-                              if(Get.arguments['ctgName'] == 'skins') {
-                                image_url = 'http://owlsup.ru/main_catalog/${ctgName}/${fetchedData![index].id!}/skinIMG.png';
+                              if(ctgName.value == 'skins') {
+                                image_url = 'http://owlsup.ru/main_catalog/${ctgName.value}/${fetchedData![index].id!}/skinIMG.png';
                               } else {
-                                image_url = 'http://owlsup.ru/main_catalog/${ctgName}/${fetchedData![index].id!}/screens/s0.jpg';
+                                image_url = 'http://owlsup.ru/main_catalog/${ctgName.value}/${fetchedData![index].id!}/screens/s0.jpg';
                               }
 
                               return InkWell(
@@ -181,6 +184,15 @@ class DetailScreenController extends GetxController {
                                       'http://owlsup.ru/main_catalog/${ctgName}/${categoryData.value.id}/screens/s0.jpg';
                                     }
                                   }
+
+
+                                  if(Get.arguments['ctgName'] == 'skins') {
+                                    checkFileExistance(filename: '${categoryData.value.title!}.mcpack');
+                                  } else {
+                                    checkFileExistance(filename: categoryData.value.files!.first.url!);
+                                  }
+
+                                  adService.checkCounterAd();
 
                                 },
                                 child: Container(
@@ -508,9 +520,10 @@ class DetailScreenController extends GetxController {
     print('suggetionUrl -> ${suggetionUrl}');
 
 
-    ctgName.value = Get.arguments['ctgName'];
+    final tempCtgName = Get.arguments['ctgName'];
+    ctgName.value = tempCtgName.replaceAll('-', '_');
     if(categoryData.value.id != null) {
-      if (Get.arguments['ctgName'] == 'skins') {
+      if (ctgName.value == 'skins') {
         imageUrl.value =
         'http://owlsup.ru/main_catalog/${ctgName.value}/${categoryData.value.id}/skinIMG.png';
       } else {

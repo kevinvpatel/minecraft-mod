@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:minecraft_mod_flutter/app/data/adServices.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/modules/category_screen/views/category_screen_view.dart';
 import 'package:minecraft_mod_flutter/app/modules/home/controllers/home_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/info_screen/views/info_screen_view.dart';
+import 'package:minecraft_mod_flutter/app/modules/web_screen/views/web_screen_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -30,7 +32,7 @@ class HomeWidgets {
     );
   }
 
-  static drawer({required double width}) {
+  static drawer({required double width, required AdService adService}) {
     return Container(
       width: width * 0.81,
       color: Colors.white,
@@ -77,16 +79,28 @@ class HomeWidgets {
                 child: Column(
                   children: [
                     drawerItem(title: 'Home', image: ConstantsImage.drawer_home, onTap: () => Get.back()),
-                    drawerItem(title: 'Category', image: ConstantsImage.drawer_category, onTap: () => Get.to(CategoryScreenView())),
+                    drawerItem(title: 'Category', image: ConstantsImage.drawer_category, onTap: () {
+                      adService.checkCounterAd();
+                      Get.to(CategoryScreenView());
+                    }),
                     drawerItem(title: 'Rate App', image: ConstantsImage.drawer_rating, onTap: () {
                       LaunchReview.launch(androidAppId: 'com.minecraft.mod.minecraft_mod_flutter');
                     }),
-                    drawerItem(title: 'Info', image: ConstantsImage.drawer_info, onTap: () => Get.to(InfoScreenView())),
+                    drawerItem(title: 'Info', image: ConstantsImage.drawer_info, onTap: () {
+                      adService.checkCounterAd();
+                      Get.to(InfoScreenView());
+                    }),
                     drawerItem(title: 'Share App', image: ConstantsImage.drawer_share, onTap: () {
                       Share.share('check out my website https://example.com');
                     }),
-                    drawerItem(title: 'Terms Of Service', image: ConstantsImage.drawer_terms, onTap: () {}),
-                    drawerItem(title: 'Privacy Policy', image: ConstantsImage.drawer_privacy, onTap: () {}),
+                    drawerItem(title: 'Terms Of Service', image: ConstantsImage.drawer_terms, onTap: () {
+                      adService.checkCounterAd();
+                      Get.to(WebScreenView());
+                    }),
+                    drawerItem(title: 'Privacy Policy', image: ConstantsImage.drawer_privacy, onTap: () {
+                      adService.checkCounterAd();
+                      Get.to(WebScreenView());
+                    }),
                   ],
                 ),
               )

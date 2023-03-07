@@ -23,7 +23,7 @@ class HomeView extends GetView<HomeController> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     ScreenResolution.screenSize(context);
-    CategoryScreenController categoryScreenController = CategoryScreenController();
+    AdService adService = AdService();
 
     return WillPopScope(
       onWillPop: () async {
@@ -66,12 +66,13 @@ class HomeView extends GetView<HomeController> {
             ),
           ));
         }
+        // adService.checkBackCounterAd();
         return Future.value(false);
       },
       child: Scaffold(
         key: controller.scaffoldKey,
         backgroundColor: ConstantsColor.orange50,
-        drawer: HomeWidgets.drawer(width: width),
+        drawer: HomeWidgets.drawer(width: width, adService: adService),
         appBar: HomeWidgets.appBar(width: width, controller: controller),
         body: Container(
           height: height,
@@ -119,8 +120,8 @@ class HomeView extends GetView<HomeController> {
                   children: List.generate(controller.categoryChips.length, (index) =>
                       InkWell(
                         onTap: () {
-                          categoryScreenController.checkCounterAd(context: context);
                           Get.to(const ListScreenView(), arguments: {'dataList' : controller.categoryData[index], 'ctgName' : controller.categoryTags[index]});
+                          adService.checkCounterAd();
                         },
                         child: Chip(
                           label: Text(controller.categoryChips[index], style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w500, color: Colors.white)),

@@ -61,9 +61,6 @@ Future<void> main() async {
             theme: ThemeData(
                 fontFamily: 'Cambria'
             ),
-            // builder: (context, child) => ScreenSizeTest(
-            //   child: child,
-            // ),
             initialRoute: AppPages.INITIAL,
             getPages: AppPages.routes,
           );

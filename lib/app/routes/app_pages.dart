@@ -12,6 +12,8 @@ import '../modules/list_screen/bindings/list_screen_binding.dart';
 import '../modules/list_screen/views/list_screen_view.dart';
 import '../modules/splash_screen/bindings/splash_screen_binding.dart';
 import '../modules/splash_screen/views/splash_screen_view.dart';
+import '../modules/web_screen/bindings/web_screen_binding.dart';
+import '../modules/web_screen/views/web_screen_view.dart';
 
 part 'app_routes.dart';
 
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.CATEGORY_SCREEN,
       page: () => const CategoryScreenView(),
       binding: CategoryScreenBinding(),
+    ),
+    GetPage(
+      name: _Paths.WEB_SCREEN,
+      page: () => const WebScreenView(),
+      binding: WebScreenBinding(),
     ),
   ];
 }

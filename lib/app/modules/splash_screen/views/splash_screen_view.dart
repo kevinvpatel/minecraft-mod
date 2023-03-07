@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import '../controllers/splash_screen_controller.dart';
 
 
@@ -22,7 +23,7 @@ class SplashScreenView extends GetView<SplashScreenController> {
           children: [
             Image.asset(ConstantsImage.LOGO1080, width: width * 0.64),
             SizedBox(height: 40),
-            const Text('Mods For Minecraft PE', style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold),)
+            Text('Mods For Minecraft PE', style: TextStyle(fontSize: 23.sp, fontWeight: FontWeight.bold),)
           ],
         ),
       ),

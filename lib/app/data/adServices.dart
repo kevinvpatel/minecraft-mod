@@ -4,7 +4,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:minecraft_mod_flutter/main.dart';
+import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+RxInt counterInterstitalAd = 1.obs;
+RxInt backCounterInterstitalAd = 1.obs;
 
 class AdService {
 
@@ -141,6 +145,7 @@ class AdService {
     print('interstitialAd LOAD -> ${adId}');
     print('interstitialAd Get.currentRoute -> ${Get.currentRoute}');
     print('interstitialAd Get.previousRoute -> ${Get.previousRoute}');
+    print('isBack -> ${isBack}');
 
     if(configData.value[isBack ? Get.previousRoute : Get.currentRoute]['interstitial-type'] == 'admob') {
       print('interstitialAd LOAD 22 -> ${adId}');
@@ -182,6 +187,97 @@ class AdService {
           }
       );
     }
+  }
+
+
+  checkCounterAd() {
+    print('counterr -> $counterInterstitalAd');
+    Future.delayed(Duration(milliseconds: 1200), () {
+      if(counterInterstitalAd.value == configData.value['counter']) {
+        counterInterstitalAd.value = 1;
+        Get.dialog(
+            barrierDismissible: false,
+            WillPopScope(
+              onWillPop: () => Future.value(false),
+              child: AlertDialog(
+                content: Row(
+                  children: [
+                    SizedBox(
+                        height: 25.sp,
+                        width: 25.sp,
+                        child: const CircularProgressIndicator(color: Colors.brown)
+                    ),
+                    const Spacer(),
+                    Text('Please Wait...', style: TextStyle(fontSize: 16.5.sp)),
+                    const Spacer(),
+                  ],
+                ),
+              ),
+            )
+        );
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          interstitialAd(onAdFailedToLoad: (error) {
+            interstitialAdMob = null;
+            interstitialAd(
+                adId: configData.value['interstitial-admob'],
+                onAdFailedToLoad: (LoadAdError) {
+                  counterInterstitalAd.value = 1;
+                  Future.delayed(const Duration(milliseconds: 1000), () => Get.back());
+                }
+            );
+          });
+        });
+      } else {
+        counterInterstitalAd.value++;
+      }
+    });
+  }
+
+
+  checkBackCounterAd() {
+    print('backCounter -> $backCounterInterstitalAd');
+    Future.delayed(Duration(milliseconds: 1200), () {
+      if(backCounterInterstitalAd.value == configData.value['back_counter']) {
+        backCounterInterstitalAd.value = 1;
+        Get.dialog(
+            barrierDismissible: false,
+            WillPopScope(
+              onWillPop: () => Future.value(false),
+              child: AlertDialog(
+                content: Row(
+                  children: [
+                    SizedBox(
+                        height: 25.sp,
+                        width: 25.sp,
+                        child: const CircularProgressIndicator(color: Colors.brown)
+                    ),
+                    const Spacer(),
+                    Text('Please Wait...', style: TextStyle(fontSize: 16.5.sp)),
+                    const Spacer(),
+                  ],
+                ),
+              ),
+            )
+        );
+        Future.delayed(const Duration(milliseconds: 1000), () {
+          interstitialAd(
+              isBack: Get.currentRoute == '/HomeView' ? false : true,
+              onAdFailedToLoad: (error) {
+                interstitialAdMob = null;
+                interstitialAd(
+                  isBack: Get.currentRoute == '/HomeView' ? false : true,
+                  adId: configData.value['interstitial-admob'],
+                  onAdFailedToLoad: (LoadAdError ) {
+                    backCounterInterstitalAd.value = 1;
+                    Future.delayed(const Duration(milliseconds: 1000), () => Get.back());
+                  },
+                );
+              });
+        });
+      } else {
+        backCounterInterstitalAd.value++;
+      }
+    });
   }
 
 }

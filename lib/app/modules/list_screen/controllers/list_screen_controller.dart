@@ -8,14 +8,16 @@ import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/data_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:minecraft_mod_flutter/app/modules/category_screen/controllers/category_screen_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/detail_screen/views/detail_screen_view.dart';
+import 'package:minecraft_mod_flutter/app/modules/home/controllers/home_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 
 class ListScreenController extends GetxController {
   //TODO: Implement ListScreenController
 
-  final count = 0.obs;
+  AdService adService = AdService();
 
   ///drop down
   List<String> lstSortDropdown = ['Sort Default', 'Newest', 'Top Download'];
@@ -110,7 +112,6 @@ class ListScreenController extends GetxController {
             }
           });
           lstSearchedCategory.refresh();
-          // lstCategory.addAll(data.category!);
         }
         isLoading.value = false;
         print('lstSearchedCategory.length -> ${lstSearchedCategory.value.length}');
@@ -139,12 +140,11 @@ class ListScreenController extends GetxController {
         'http://owlsup.ru/main_catalog/${ctgName}/${category.id}/screens/s0.jpg';
       }
     }
-    print('imageUrl -> $imageUrl  title -> ${category.title}');
-
     return InkWell(
       onTap: () {
         final data = json.encode(category);
         Get.to(const DetailScreenView(), arguments: {'dataList' : Get.arguments['dataList'], 'singleCategory': data, 'ctgName' : ctgName});
+        adService.checkCounterAd();
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 15.sp, horizontal: 12.sp),
@@ -178,7 +178,7 @@ class ListScreenController extends GetxController {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 8, right: 8, bottom: 7),
+              margin: const EdgeInsets.only(left: 8, right: 8, bottom: 7),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -191,26 +191,24 @@ class ListScreenController extends GetxController {
                       Column(
                         children: [
                           Image.asset(ConstantsImage.heart, height: 15.5.sp),
-                          SizedBox(height: 3),
-                          // Text(k_m_b_generator(num: int.parse(fetchedData[index].likes!)), style: TextStyle(fontSize: 10.5, color: Colors.grey.shade700))
+                          const SizedBox(height: 3),
                           Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.likes!)),
                               style: TextStyle(fontSize: 14.sp, color: Colors.grey.shade700))
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         children: [
                           Image.asset(ConstantsImage.eye, height: 16.sp),
-                          SizedBox(height: 3),
-                          // Text(k_m_b_generator(num: int.parse(fetchedData[index].views!)), style: TextStyle(fontSize: 10.5))
+                          const SizedBox(height: 3),
                           Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.views!)), style: TextStyle(fontSize: 13.5.sp))
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         children: [
                           Image.asset(ConstantsImage.download, height: 15.5.sp),
-                          SizedBox(height: 3),
+                          const SizedBox(height: 3),
                           Text(ConstantsWidgets.k_m_b_generator(num: int.parse(category.downloads!)), style: TextStyle(fontSize: 13.5.sp))
                         ],
                       ),
@@ -235,7 +233,7 @@ class ListScreenController extends GetxController {
                 child: lstCategory.value.isNotEmpty
                   ? ListView.separated(
                     controller: scrollController,
-                      physics: BouncingScrollPhysics(),
+                      physics: const BouncingScrollPhysics(),
                       padding: EdgeInsets.only(top: width * 0.05, bottom: width * 0.13),
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
@@ -244,7 +242,7 @@ class ListScreenController extends GetxController {
                       separatorBuilder: (context, index) => (index+1) % 6 == 0
                         ///NativeAd Container
                           ? Container(
-                        margin: EdgeInsets.symmetric(vertical: 15),
+                        margin: const EdgeInsets.symmetric(vertical: 15),
                         width: width * 0.9,
                         height: width * 0.5,
                         decoration: const BoxDecoration(
@@ -256,9 +254,7 @@ class ListScreenController extends GetxController {
                       ) : SizedBox(),
 
                       itemBuilder: (context, index) {
-
                         if(index.isEven) {
-
                           return Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -294,8 +290,6 @@ class ListScreenController extends GetxController {
     );
   }
 
-  RxList dataList = [].obs;
-  String ctgName = '';
 
   @override
   void onInit() {
@@ -303,10 +297,6 @@ class ListScreenController extends GetxController {
     lstCategory = <Category>[].obs;
     lstSearchedCategory = <Category>[].obs;
 
-    print('lstSearchedCategory length init -> ${lstSearchedCategory.length}');
-    print('Get.arguments[dataList] 22-> ${Get.arguments}');
-    print('dataList 22-> ${dataList.value}');
-    // getData(url: Get.arguments['dataList'][0]['url'], tag: Get.arguments['ctgName']);
     getData(url: Get.arguments['dataList'][0]['url'], tag: Get.arguments['ctgName']);
 
     searchController.addListener(() {
@@ -343,10 +333,6 @@ class ListScreenController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    // lstCategoryDropdown.value.addAll(Get.arguments['dataList']);
-    print('Get.arguments[dataList] -> ${Get.arguments['dataList']}');
-    print('dataList -> ${dataList.value}');
-    print('lstCategoryDropdown -> ${lstCategoryDropdown.value}');
     Get.arguments['dataList'].forEach((element) {
       lstCategoryDropdown.value.add(element['title']);
       lstMapCategoryDropdown.value.add(element);
@@ -360,5 +346,4 @@ class ListScreenController extends GetxController {
     super.onClose();
   }
 
-  void increment() => count.value++;
 }

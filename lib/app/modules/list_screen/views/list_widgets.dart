@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:minecraft_mod_flutter/app/data/adServices.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/color_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
@@ -8,7 +9,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 class ListWidgets {
 
-  static PreferredSizeWidget appBar({required double width, required ListScreenController controller}) {
+  static PreferredSizeWidget appBar({required double width, required ListScreenController controller, required AdService adService}) {
     return ConstantsWidgets.appBarConstant(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -17,7 +18,10 @@ class ListWidgets {
             width: 19.sp,
             child: TextButton(
                 style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                onPressed: (){Get.back();},
+                onPressed: () {
+                  adService.checkBackCounterAd();
+                  Get.back();
+                },
                 child: Image.asset(ConstantsImage.back)
             ),
           ),
@@ -35,26 +39,10 @@ class ListWidgets {
                 hintStyle: TextStyle(fontSize: 17.5.sp, color: Colors.brown),
                 hintText: 'Search here...',
                 suffixIcon: Container(width: 18.5.sp, margin: EdgeInsets.only(right: 10), child: Image.asset(ConstantsImage.search)),
-                // suffixIcon: Obx(() {
-                //   return TextButton(
-                //       style: ButtonStyle(overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent)),
-                //       onPressed: controller.isSearchOn.value == true ? (){
-                //         controller.isSearchOn.value = false;
-                //         controller.txtSearchController.clear();
-                //       } : null,
-                //       child: controller.isSearchOn.value == true ? Icon(Icons.clear, color: Colors.brown) : Image.asset(ConstantsImage.search)
-                //   );
-                // }),
                 suffixIconConstraints: BoxConstraints(maxHeight: 40, maxWidth: 40),
-
               ),
-              onTap: () {
-                // controller.searchController.text.isEmpty ? controller.isSearchOn.value = false : controller.isSearchOn.value = true;
-              },
-              onChanged: (text) {
-                // controller.searchController.text = text;
-                // controller.isSearchOn.value = true;
-              },
+              onTap: () {},
+              onChanged: (text) {},
             ),
           )
         ],
