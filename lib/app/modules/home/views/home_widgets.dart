@@ -95,11 +95,11 @@ class HomeWidgets {
                     }),
                     drawerItem(title: 'Terms Of Service', image: ConstantsImage.drawer_terms, onTap: () {
                       adService.checkCounterAd();
-                      Get.to(WebScreenView());
+                      Get.to(WebScreenView(), arguments: 'https://flutter.dev');
                     }),
                     drawerItem(title: 'Privacy Policy', image: ConstantsImage.drawer_privacy, onTap: () {
                       adService.checkCounterAd();
-                      Get.to(WebScreenView());
+                      Get.to(WebScreenView(), arguments: 'https://www.google.com/');
                     }),
                   ],
                 ),

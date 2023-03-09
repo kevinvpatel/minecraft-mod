@@ -25,7 +25,7 @@ class ConstantsWidgets {
 
   static PreferredSizeWidget appBarConstant ({required Widget child}) {
     return AppBar(
-      toolbarHeight: 32.sp,
+      toolbarHeight: 30.sp,
       leadingWidth: 0,
       title: child,
       backgroundColor: ConstantsColor.orange50,

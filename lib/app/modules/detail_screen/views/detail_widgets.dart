@@ -7,6 +7,7 @@ import 'package:minecraft_mod_flutter/app/data/constants/image_constants.dart';
 import 'package:minecraft_mod_flutter/app/data/constants/widget_constants.dart';
 import 'package:minecraft_mod_flutter/app/modules/detail_screen/controllers/detail_screen_controller.dart';
 import 'package:minecraft_mod_flutter/app/modules/info_screen/views/info_screen_view.dart';
+import 'package:minecraft_mod_flutter/app/modules/web_screen/views/web_screen_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -83,6 +84,7 @@ class DetailWidgets {
           value: controller.selectedSideMenu?.value,
           onChanged: (val) {
             if(val == 'Privacy Policy') {
+              Get.to(WebScreenView(), arguments: 'https://flutter.dev');
             } else if(val == 'Info') {
               Get.to(const InfoScreenView());
             } else {

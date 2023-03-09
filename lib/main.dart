@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:minecraft_mod_flutter/app/modules/splash_screen/controllers/splash_screen_controller.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-import 'package:screen_size_test/screen_size_test.dart';
 import 'app/routes/app_pages.dart';
 
 
